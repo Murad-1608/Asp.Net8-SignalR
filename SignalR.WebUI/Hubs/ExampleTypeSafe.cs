@@ -2,11 +2,11 @@
 
 namespace SignalR.WebUI.Hubs
 {
-    public class ExampleHub : Hub, IExampleTypeSafe
+    public class ExampleTypeSafe : Hub<IExampleTypeSafe>
     {
         public async Task BroadcastMessageToAllClients(string message)
         {
-            await Clients.All.SendAsync("ReceiveMessageForAllClients", message);
+            await Clients.All.ReceiveMessageForAllClients(message);
         }
     }
 }
