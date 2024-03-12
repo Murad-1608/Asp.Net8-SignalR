@@ -3,10 +3,10 @@ $(document).ready(function () {
     const broadcastingMessageToAllClientMethodCall = "BroadcastMessageToAllClients";
 
     const ReceiveMessageForAllClientsClientMethodCall = "ReceiveMessageForAllClients";
-
+    const ReceiveClientConnectedCountAllClientsMethodCall = "ReceiveClientConnectedCountAllClients";
     //Connected with signalr
     const connection = new signalR.HubConnectionBuilder().
-        withUrl("/examplehub").
+        withUrl("/exampletypesafe").
         configureLogging(signalR.LogLevel.Information).
         build();
 
@@ -25,6 +25,13 @@ $(document).ready(function () {
     //Subscribe to method
     connection.on(ReceiveMessageForAllClientsClientMethodCall, (message) => {
         console.log("Incoming message",message);
+    });
+
+
+    //Show connected clients count with hub
+    var span_client_count = $("#span-connected-client-count");        
+    connection.on(ReceiveClientConnectedCountAllClientsMethodCall, (count) => {
+        span_client_count.text(count);
     });
 
     $("#btn-send-message-all-client").click(function () {
