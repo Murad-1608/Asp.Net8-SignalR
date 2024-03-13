@@ -10,7 +10,18 @@ namespace SignalR.WebUI.Hubs
             await Clients.All.ReceiveMessageForAllClients(message);
         }
 
+        public async Task SendMessageForCallerClient(string message)
+        {
+            await Clients.Caller.ReceiveMessageForCallerClient(message);
+        }
 
+        public async Task SendMessageForOtherClient(string message)
+        {
+            await Clients.Others.ReceiveMessageForOtherClient(message);
+        }
+
+
+        #region OnConnectionAndDisConnection
         public override async Task OnConnectedAsync()
         {
             ConnectedCount++;
@@ -23,5 +34,7 @@ namespace SignalR.WebUI.Hubs
 
             await Clients.All.ReceiveClientConnectedCountAllClients(ConnectedCount);
         }
+        #endregion
+
     }
 }
