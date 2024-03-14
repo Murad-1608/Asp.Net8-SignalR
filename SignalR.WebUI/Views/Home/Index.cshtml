@@ -2,19 +2,29 @@
     ViewData["Title"] = "Home Page";
 }
 @section Scripts{
-    <script src="~/js/signalr-client.js"></script>
+    <script src="~/js/TestSignalR.js"></script>
 }
 <div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <button type="button" class="btn btn-primary">
+            <div id="connectionId" class="alert alert-primary" role="alert">
+
+            </div>
+
+            <button type="button" class="btn btn-success disabled mx-1 my-1">
                 Connected client count <span id="span-connected-client-count" class="badge text-bg-secondary">0</span>
             </button>
 
-            <button id="btn-send-message-all-client">Send all clients</button>
+            <button id="btn-send-message-all-client" class="btn btn-primary mx-1 my-1">Send all clients</button>
 
-            <button id="btn-send-message-caller-client">Send caller client</button>
-            <button id="btn-send-message-other-client">Send other client</button>
+            <button id="btn-send-message-caller-client" class="btn btn-primary mx-1 my-1">Send caller client</button>
+            <button id="btn-send-message-other-client" class="btn btn-primary mx-1 my-1">Send other client</button>
+            <hr />
+            <div>
+                <input type="text" class="form-control mx-1 my-1" id="input_connectionId" placeholder="Connection Id">
+                <button id="btn-send-message-individual-client" class="btn btn-primary mx-1 my-1">Send individual client</button>
+            </div>
+
 
         </div>
 

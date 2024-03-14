@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
     const broadcastingMessageToAllClientMethodCall = "BroadcastMessageToAllClients";
 
@@ -10,18 +10,21 @@ $(document).ready(function () {
 
     const SendMessageForOtherClientMethodCall = "SendMessageForOtherClient";
     const ReceiveMessageForOtherClientMethodCall = "ReceiveMessageForOtherClient";
-    //Connected with signalr
-    //const connection = new signalR.HubConnectionBuilder().
-    //    withUrl("/exampletypesafe").
-    //    configureLogging(signalR.LogLevel.Information).
-    //    build();
+
+    const SendMessageForIndividualClientMethodCall = "SendMessageForIndividualClient";
+    const ReceiveMessageForIndividualClientMethodCall = "ReceiveMessageForIndividualClient";
+
+    const connection = new signalR.HubConnectionBuilder().
+        withUrl("/exampletypesafe").
+        configureLogging(signalR.LogLevel.Information).
+        build();
 
 
     function start() {
         connection.start().then(() => {
             $("#connectionId").html(`ConnectionId : ${connection.connectionId}`);
 
-            console.log("Connected signalr", "ConnectionId:connection.connectionId");
+            console.log("Connected with signalr");
 
 
         });
@@ -29,7 +32,7 @@ $(document).ready(function () {
     }
 
     try {
-        //start();
+        start();
     } catch {
         setTimeout(() => start(), 5000);
     }
@@ -51,6 +54,11 @@ $(document).ready(function () {
 
     connection.on(ReceiveMessageForOtherClientMethodCall, (message) => {
         console.log("Message for other clients", message);
+    });
+
+
+    connection.on(ReceiveMessageForIndividualClientMethodCall, (message, connectionId) => {
+        console.log(`Message for from ${connectionId}`, message);
     });
 
 
@@ -79,6 +87,14 @@ $(document).ready(function () {
         const message = "hello world";
 
         connection.invoke(SendMessageForOtherClientMethodCall, message).
+            catch(err => console.error("Error"));
+    });
+
+    $("#btn-send-message-individual-client").click(function () {
+        const message = "hello world";
+        const connectionId = $("#input_connectionId").val();
+
+        connection.invoke(SendMessageForIndividualClientMethodCall, message, connectionId).
             catch(err => console.error("Error"));
     });
 });

@@ -20,6 +20,10 @@ namespace SignalR.WebUI.Hubs
             await Clients.Others.ReceiveMessageForOtherClient(message);
         }
 
+        public async Task SendMessageForIndividualClient(string message, string connectionId)
+        {
+            await Clients.Client(connectionId).ReceiveMessageForIndividualClient(message, connectionId);
+        }
 
         #region OnConnectionAndDisConnection
         public override async Task OnConnectedAsync()

@@ -6,5 +6,6 @@
         public Task ReceiveClientConnectedCountAllClients(int count);
         public Task ReceiveMessageForCallerClient(string message);
         public Task ReceiveMessageForOtherClient(string message);
+        public Task ReceiveMessageForIndividualClient(string message, string connectionId);
     }
 }
