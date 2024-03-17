@@ -25,6 +25,22 @@ namespace SignalR.WebUI.Hubs
             await Clients.Client(connectionId).ReceiveMessageForIndividualClient(message, connectionId);
         }
 
+        public async Task SendMessageForGroupClient(string groupName, string message)
+        {
+            await Clients.Group(groupName).ReceiveMessageForGroupClient(message);
+        }
+
+        public async Task AddGroup(string groupName)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+        }
+
+        public async Task RemoveGroup(string groupName)
+        {
+            await Groups.RemoveFromGroupAsync();
+        }
+
+
         #region OnConnectionAndDisConnection
         public override async Task OnConnectedAsync()
         {

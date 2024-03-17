@@ -62,6 +62,10 @@
     });
 
 
+    //Hub'in isleme prosesi: button.click -> hub.Method -> connection.On(method)
+
+
+
     //Show connected clients count with hub
     var span_client_count = $("#span-connected-client-count");
     connection.on(ReceiveClientConnectedCountAllClientsMethodCall, (count) => {

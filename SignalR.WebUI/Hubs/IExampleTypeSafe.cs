@@ -7,5 +7,6 @@
         public Task ReceiveMessageForCallerClient(string message);
         public Task ReceiveMessageForOtherClient(string message);
         public Task ReceiveMessageForIndividualClient(string message, string connectionId);
+        public Task ReceiveMessageForGroupClient(string message);
     }
 }
