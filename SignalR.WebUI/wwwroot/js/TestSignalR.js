@@ -1,6 +1,14 @@
 ﻿$(document).ready(function () {
 
+    const connection = new signalR.HubConnectionBuilder().
+        withUrl("/exampletypesafe").
+        configureLogging(signalR.LogLevel.Information).
+        build();
+
     const broadcastingMessageToAllClientMethodCall = "BroadcastMessageToAllClients";
+
+    const broadcastMessageToAllClientsComplexMethodCall = "BroadcastMessageToAllClientsComplex";
+    const receiveMessageForAllClientsComplexMethodCall = "ReceiveMessageForAllClientsComplex";
 
     const ReceiveMessageForAllClientsClientMethodCall = "ReceiveMessageForAllClients";
     const ReceiveClientConnectedCountAllClientsMethodCall = "ReceiveClientConnectedCountAllClients";
@@ -14,12 +22,13 @@
     const SendMessageForIndividualClientMethodCall = "SendMessageForIndividualClient";
     const ReceiveMessageForIndividualClientMethodCall = "ReceiveMessageForIndividualClient";
 
-    const connection = new signalR.HubConnectionBuilder().
-        withUrl("/exampletypesafe").
-        configureLogging(signalR.LogLevel.Information).
-        build();
 
 
+    //const groupA = "GroupA";
+    //const groupB = "GroupB";
+
+
+    //dfdfd
     function start() {
         connection.start().then(() => {
             $("#connectionId").html(`ConnectionId : ${connection.connectionId}`);
@@ -43,10 +52,19 @@
 
 
 
+
+
+
+
     //Subscribe to method
     connection.on(ReceiveMessageForAllClientsClientMethodCall, (message) => {
         console.log("Incoming message", message);
     });
+
+    connection.on(receiveMessageForAllClientsComplexMethodCall, (product) => {
+        console.log(product);
+    });
+
 
     connection.on(ReceiveMessageForCallerClientMethodCall, (message) => {
         console.log("Message for caller", message);
@@ -99,6 +117,17 @@
         const connectionId = $("#input_connectionId").val();
 
         connection.invoke(SendMessageForIndividualClientMethodCall, message, connectionId).
+            catch(err => console.error("Error"));
+    });
+
+    $("#btn-send-message-all-client-complex").click(function () {
+        const product = {
+            id:1,
+            name:"Murad",
+            surname:"Muradov"
+        };
+
+        connection.invoke(broadcastMessageToAllClientsComplexMethodCall, product).
             catch(err => console.error("Error"));
     });
 });

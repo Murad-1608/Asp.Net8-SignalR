@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using SignalR.WebUI.Models;
 
 namespace SignalR.WebUI.Hubs
 {
@@ -8,6 +9,11 @@ namespace SignalR.WebUI.Hubs
         public async Task BroadcastMessageToAllClients(string message)
         {
             await Clients.All.ReceiveMessageForAllClients(message);
+        }
+
+        public async Task BroadcastMessageToAllClientsComplex(ProductModel model)
+        {
+            await Clients.All.ReceiveMessageForAllClientsComplex(model);
         }
 
         public async Task SendMessageForCallerClient(string message)
@@ -25,7 +31,7 @@ namespace SignalR.WebUI.Hubs
             await Clients.Client(connectionId).ReceiveMessageForIndividualClient(message, connectionId);
         }
 
-        public async Task SendMessageForGroupClient(string groupName, string message)
+        public async Task SendMessageToGroupClient(string groupName, string message)
         {
             await Clients.Group(groupName).ReceiveMessageForGroupClient(message);
         }
@@ -33,11 +39,19 @@ namespace SignalR.WebUI.Hubs
         public async Task AddGroup(string groupName)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+            await Clients.Caller.ReceiveMessageForAllClients($"You added to {groupName} group");
+
+            await Clients.Group(groupName).ReceiveMessageForGroupClient(($"{Context.ConnectionId} user added to {groupName} group"));
         }
 
         public async Task RemoveGroup(string groupName)
         {
-            await Groups.RemoveFromGroupAsync();
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+
+            await Clients.Caller.ReceiveMessageForAllClients($"You exit to {groupName} group");
+
+            await Clients.Group(groupName).ReceiveMessageForGroupClient(($"{Context.ConnectionId} user exit to {groupName} group"));
         }
 
 
