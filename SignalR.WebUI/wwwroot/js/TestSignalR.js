@@ -29,22 +29,24 @@
 
 
     //dfdfd
-    function start() {
-        connection.start().then(() => {
-            $("#connectionId").html(`ConnectionId : ${connection.connectionId}`);
+    async function start() {
+        try {
+            await connection.start().then(() => {
+                $("#connectionId").html(`ConnectionId : ${connection.connectionId}`);
 
-            console.log("Connected with signalr");
+                console.log("Connected with signalr");
 
+            });
 
-        });
-
+        } catch (err) {
+            console.log("Can't connection with hub", err);
+            setTimeout(() => start(), 3000);
+        }
     }
 
-    try {
-        start();
-    } catch {
-        setTimeout(() => start(), 5000);
-    }
+    start();
+
+
 
 
 
@@ -122,9 +124,9 @@
 
     $("#btn-send-message-all-client-complex").click(function () {
         const product = {
-            id:1,
-            name:"Murad",
-            surname:"Muradov"
+            id: 1,
+            name: "Murad",
+            surname: "Muradov"
         };
 
         connection.invoke(broadcastMessageToAllClientsComplexMethodCall, product).

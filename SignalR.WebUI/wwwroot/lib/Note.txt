@@ -1,0 +1,3 @@
+﻿1) SiqnalR ilə əlaqə yaradılması ( var connection = new HubConnectionBuilder().WithUrl("https://localhost:44379/exampletypesafe").Build(); )
+2) Hub içində olan metodu çağırmaq (connection.invoke())
+3) Hub-daki metoda abunə olmaq : connection.on()

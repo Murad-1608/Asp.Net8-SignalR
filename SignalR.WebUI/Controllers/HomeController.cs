@@ -17,7 +17,10 @@ namespace SignalR.WebUI.Controllers
         {
             return View();
         }
-
+        public IActionResult SendMessageFromWebApi()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

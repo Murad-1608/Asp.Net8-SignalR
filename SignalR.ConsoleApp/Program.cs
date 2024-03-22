@@ -14,4 +14,13 @@ connection.On<ProductModel>("ReceiveMessageForAllClientsComplex", handler: (prod
     Console.WriteLine($"Received message: {product.Id} - {product.Name} - {product.Surname}");
 });
 
+ProductModel product = new()
+{
+    Id = 3,
+    Name = "Nicat",
+    Surname = "Baliyev"
+};
+await connection.InvokeAsync("BroadcastMessageToAllClientsComplex", product);
+
+
 Console.ReadKey();

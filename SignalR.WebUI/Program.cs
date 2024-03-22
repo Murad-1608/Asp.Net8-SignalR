@@ -3,6 +3,7 @@ using SignalR.WebUI.Hubs;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 var app = builder.Build();
